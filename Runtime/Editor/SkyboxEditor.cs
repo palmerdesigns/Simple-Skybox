@@ -1,0 +1,134 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+
+namespace VolcanicGarage.Tools
+{
+    public class SkyboxEditor : EditorWindow
+    {
+        private List<Material> skyboxMaterials;
+        private Vector2 scrollPosition;
+
+        [MenuItem("Window/Custom Skybox Editor")]
+        public static void ShowWindow()
+        {
+            GetWindow<SkyboxEditor>("Skybox Editor");
+        }
+
+        private void OnEnable()
+        {
+            LoadSkyboxMaterials();
+        }
+
+        private void OnGUI()
+        {
+            #region Styles
+
+            //Heading Style
+            GUIStyle headingStyle = new GUIStyle(GUI.skin.label);
+            headingStyle.fontSize = 24;
+            headingStyle.fontStyle = FontStyle.Bold;
+            headingStyle.normal.textColor = Color.white;
+
+            //Button Style
+            GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
+            buttonStyle.fixedHeight = 50;
+
+            #endregion
+
+            GUILayout.Label("All Skyboxes", headingStyle);
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
+            #region Styling the buttons and grid
+
+            int buttonSize = 100;
+            int padding = 10;
+            int margin = 20;
+            int buttonPerRow = Mathf.Max(1, (int)(position.width - 2 * margin) / (buttonSize + padding));
+            int rowCounter = 0;
+            #endregion
+
+            // Calculate the total width of the buttons and padding
+            float totalWidth = buttonPerRow * (buttonSize + padding) - padding;
+
+            // Center the area within the window
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.BeginVertical("box");
+            GUILayout.Space(margin); // Add top margin
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(margin); // Add left margin
+
+            foreach (Material material in skyboxMaterials)
+            {
+                Texture2D thumbnail = AssetPreview.GetAssetPreview(material);
+                if (thumbnail == null)
+                {
+                    Debug.Log("No thumbnail for material: " + material.name);
+                    continue;
+                }
+                if (GUILayout.Button(thumbnail, GUILayout.Width(buttonSize), GUILayout.Height(buttonSize)))
+                {
+                    RenderSettings.skybox = material;
+                    SceneView.RepaintAll();
+                }
+
+                rowCounter++;
+                if (rowCounter >= buttonPerRow)
+                {
+                    GUILayout.EndHorizontal();
+                    GUILayout.BeginHorizontal();
+                    GUILayout.Space(margin); // Add left margin for new row
+                    rowCounter = 0;
+                }
+                else
+                {
+                    GUILayout.Space(padding); // Add padding between buttons
+                }
+            }
+
+            GUILayout.EndHorizontal();
+            GUILayout.Space(margin);
+            GUILayout.EndVertical();
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            GUILayout.EndScrollView();
+
+            //Refresh Button
+            if (GUILayout.Button("Refresh", buttonStyle))
+            {
+                LoadSkyboxMaterials();
+            }
+
+            // Force repaint to ensure the window updates
+            Repaint();
+        }
+
+        private void LoadSkyboxMaterials()
+        {
+            #region Grab all skybox materials
+            // Load all skybox materials
+            skyboxMaterials = new List<Material>();
+
+            string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new[] { "Assets/Materials/Skyboxes" });
+            foreach (string guid in materialGUIDs)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                Material material = AssetDatabase.LoadAssetAtPath<Material>(assetPath);
+                if (material != null)
+                {
+                    skyboxMaterials.Add(material);
+                }
+            }
+            Debug.Log("Materials loaded: " + skyboxMaterials.Count);
+            #endregion
+        }
+    }
+
+
+
+
+
+
+}
