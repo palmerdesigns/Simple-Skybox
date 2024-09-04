@@ -56,10 +56,10 @@ namespace VolcanicGarage.Tools
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             GUILayout.BeginVertical("box");
-            GUILayout.Space(margin); // Add top margin
+            GUILayout.Space(margin); 
 
             GUILayout.BeginHorizontal();
-            GUILayout.Space(margin); // Add left margin
+            GUILayout.Space(margin); 
 
             if (skyboxMaterials == null || skyboxMaterials.Count == 0)
             {
@@ -77,7 +77,6 @@ namespace VolcanicGarage.Tools
                     Texture2D thumbnail = AssetPreview.GetAssetPreview(material);
                     if (thumbnail == null)
                     {
-                        Debug.Log("No thumbnail for material: " + material.name);
                         continue;
                     }
 
@@ -92,12 +91,12 @@ namespace VolcanicGarage.Tools
                     {
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
-                        GUILayout.Space(margin); // Add left margin for new row
+                        GUILayout.Space(margin); 
                         rowCounter = 0;
                     }
                     else
                     {
-                        GUILayout.Space(padding); // Add padding between buttons
+                        GUILayout.Space(padding); 
                     }
                 }
             }
@@ -136,8 +135,6 @@ namespace VolcanicGarage.Tools
                     skyboxMaterials.Add(material);
                 }
             }
-            Debug.Log("Materials loaded: " + skyboxMaterials.Count);
-
             #endregion
         }
     }
