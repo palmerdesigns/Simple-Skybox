@@ -1,9 +1,9 @@
 {
   "name": "com.volcanicgarage.simpleskybox",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "displayName": "Simple Skybox",
   "description": "A simple skybox editor tool to quickly swap skyboxes in your environment.",
-  "unity": "2019.4",
+  "unity": "2019",
   "author": {
     "name": "Brandon Palmer"
   }
