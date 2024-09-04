@@ -20,18 +20,24 @@ To populate the editor with your custom skyboxes, please proceed as follows:
 
 ![Alt text](Images/Git_URL.png "Optional title")
 <br><br>
-# Skybox Setup
+## Skybox Setup
 
 Open the "Simple Skybox tool" from Window > Simple Skybox Window
 
 ![Alt text](Images/SimpleSkyboxWindow_Menu.png "Optional title")
 
-## Skybox Integration
 
-To add skyboxes create a "Skyboxes folder" inside Assets and create materials using a skybox shader type
+and you will see an empty Skybox tool asking to create some skyboxes.
 
-![Alt text](Images/Assign_Shader.png "Optional title")
+![Alt text](Images/Missing_Materials.png "Optional title")
+
+
+
+To add skyboxes, create a "Skyboxes folder" inside Assets and create materials using a skybox shader type
+
 ![Alt text](Images/Add_Skybox_Folder.png "Optional title")
+![Alt text](Images/Assign_Shader.png "Optional title")
+
 
 
 
