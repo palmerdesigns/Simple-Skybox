@@ -9,7 +9,7 @@ namespace VolcanicGarage.Tools
         private List<Material> skyboxMaterials;
         private Vector2 scrollPosition;
 
-        [MenuItem("Window/Custom Skybox Editor")]
+        [MenuItem("Window/Simple Skybox Window")]
         public static void ShowWindow()
         {
             GetWindow<SkyboxEditor>("Skybox Editor");
@@ -24,13 +24,13 @@ namespace VolcanicGarage.Tools
         {
             #region Styles
 
-            //Heading Style
+            // Heading Style
             GUIStyle headingStyle = new GUIStyle(GUI.skin.label);
             headingStyle.fontSize = 24;
             headingStyle.fontStyle = FontStyle.Bold;
             headingStyle.normal.textColor = Color.white;
 
-            //Button Style
+            // Button Style
             GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
             buttonStyle.fixedHeight = 50;
 
@@ -46,6 +46,7 @@ namespace VolcanicGarage.Tools
             int margin = 20;
             int buttonPerRow = Mathf.Max(1, (int)(position.width - 2 * margin) / (buttonSize + padding));
             int rowCounter = 0;
+
             #endregion
 
             // Calculate the total width of the buttons and padding
@@ -60,31 +61,44 @@ namespace VolcanicGarage.Tools
             GUILayout.BeginHorizontal();
             GUILayout.Space(margin); // Add left margin
 
-            foreach (Material material in skyboxMaterials)
+            if (skyboxMaterials == null || skyboxMaterials.Count == 0)
             {
-                Texture2D thumbnail = AssetPreview.GetAssetPreview(material);
-                if (thumbnail == null)
+                EditorGUILayout.HelpBox("No skybox materials found. Please create a material inside a folder called Skyboxes within the Assets folder, and assign it to the skybox shader.", MessageType.Warning);
+            }
+            else
+            {
+                foreach (Material material in skyboxMaterials)
                 {
-                    Debug.Log("No thumbnail for material: " + material.name);
-                    continue;
-                }
-                if (GUILayout.Button(thumbnail, GUILayout.Width(buttonSize), GUILayout.Height(buttonSize)))
-                {
-                    RenderSettings.skybox = material;
-                    SceneView.RepaintAll();
-                }
+                    if (material == null)
+                    {
+                        continue;
+                    }
 
-                rowCounter++;
-                if (rowCounter >= buttonPerRow)
-                {
-                    GUILayout.EndHorizontal();
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Space(margin); // Add left margin for new row
-                    rowCounter = 0;
-                }
-                else
-                {
-                    GUILayout.Space(padding); // Add padding between buttons
+                    Texture2D thumbnail = AssetPreview.GetAssetPreview(material);
+                    if (thumbnail == null)
+                    {
+                        Debug.Log("No thumbnail for material: " + material.name);
+                        continue;
+                    }
+
+                    if (GUILayout.Button(thumbnail, GUILayout.Width(buttonSize), GUILayout.Height(buttonSize)))
+                    {
+                        RenderSettings.skybox = material;
+                        SceneView.RepaintAll();
+                    }
+
+                    rowCounter++;
+                    if (rowCounter >= buttonPerRow)
+                    {
+                        GUILayout.EndHorizontal();
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Space(margin); // Add left margin for new row
+                        rowCounter = 0;
+                    }
+                    else
+                    {
+                        GUILayout.Space(padding); // Add padding between buttons
+                    }
                 }
             }
 
@@ -95,7 +109,7 @@ namespace VolcanicGarage.Tools
             GUILayout.EndHorizontal();
             GUILayout.EndScrollView();
 
-            //Refresh Button
+            // Refresh Button
             if (GUILayout.Button("Refresh", buttonStyle))
             {
                 LoadSkyboxMaterials();
@@ -108,10 +122,11 @@ namespace VolcanicGarage.Tools
         private void LoadSkyboxMaterials()
         {
             #region Grab all skybox materials
+
             // Load all skybox materials
             skyboxMaterials = new List<Material>();
 
-            string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new[] { "Assets/Materials/Skyboxes" });
+            string[] materialGUIDs = AssetDatabase.FindAssets("t:Material", new[] { "Assets/Skyboxes" });
             foreach (string guid in materialGUIDs)
             {
                 string assetPath = AssetDatabase.GUIDToAssetPath(guid);
@@ -122,6 +137,7 @@ namespace VolcanicGarage.Tools
                 }
             }
             Debug.Log("Materials loaded: " + skyboxMaterials.Count);
+
             #endregion
         }
     }
