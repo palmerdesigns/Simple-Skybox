@@ -5,7 +5,7 @@
 Welcome to the Simple Skybox Editor for Unity. This tool is engineered to streamline your workflow, enabling quick and efficient skybox swaps within your scene—ideal for rapid prototyping and visual development.
 
 ## Install Package
-> **Note:** Supports Unity 2019 +
+> **Note:** Supports Unity 2019.04 +
 
 To populate the editor with your custom skyboxes, please proceed as follows:
 
@@ -47,5 +47,5 @@ To add skyboxes, create a **"Skyboxes folder"** inside **Assets** and create mat
 ![Alt text](Images/Add_Materials.png "Optional title")
 
 ### Additional Notes:
-1. Supports Unity Version 2019 or higher
+1. Supports Unity Version 2019.4 or higher
 2. Free to use in any project!
