@@ -1,6 +1,6 @@
 # Simple-Skybox
 
-![Alt text](Images/SimpleSkybox_Hero_02.png "Optional title")
+![Alt text](Images/SimpleSkybox_Hero_04.png "Optional title")
 
 Welcome to the Simple Skybox Editor for Unity. This tool is engineered to streamline your workflow, enabling quick and efficient skybox swaps within your scene—ideal for rapid prototyping and visual development.
 
